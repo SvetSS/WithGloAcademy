@@ -54,17 +54,18 @@ const getServicePercentPrices = function(getFullPriceOfAll, RollbackPercent ){
 }
 
 const getAllServicePrices = function(){
-    //let sum = 0;
     let sum=0;
     for(let i = 0; i<2; i++){
         if (i===0){
-            service1 = prompt('Какой дополнительный тип услуги нужен?');  
+            service1 = prompt('Какой дополнительный тип услуги нужен?'); 
         }else if(i===1){
             service2 = prompt('Какой дополнительный тип услуги нужен?');
         }
-        //prompt отрабатывает немного не в той последовательности. Не могу понять, почему
-        while(!isNumber(sum )){sum = Number( prompt('Сколько будет стоить данная работа? Ответ выразите в цифрах'));}
-        sum += Number(prompt('Сколько будет стоить данная работа? Ответ выразите в цифрах'));
+        do{
+            sum = Number( prompt('Сколько будет стоить данная работа? Ответ выразите в цифрах'));
+        }
+        while(!isNumber(sum ))
+        sum += +sum;
     }
     return sum;
 }
