@@ -1,6 +1,6 @@
 'use strict'
 
-const listH = document.getElementsByTagName('h1');
+//const listH = document.getElementsByTagName('h1');
 const title = document.getElementsByTagName('h1')[0];
 //const title = listH.item(0).innerHTML;
 const listBtn = document.getElementsByClassName('handler_btn');
