@@ -3,63 +3,112 @@
 //const listH = document.getElementsByTagName('h1');
 const title = document.getElementsByTagName('h1')[0];
 //const title = listH.item(0).innerHTML;
-const listBtn = document.getElementsByClassName('handler_btn');
+const startBtn = document.getElementsByClassName('handler_btn')[0];
+const redtBtn = document.getElementsByClassName('handler_btn')[1];
+/* const listBtn = document.getElementsByClassName('handler_btn');
 const listBtnEl0 = listBtn[0];
-const listBtnEl1 = listBtn[1];
+const listBtnEl1 = listBtn[1]; */
+let screens = document.querySelectorAll('.screen');
 const btnPlus = document.querySelector('.screen-btn');
-const percentList = Array.from(document.querySelectorAll('.other-items.percent'));
-const numbertList = Array.from(document.querySelectorAll('.other-items.number'));
+const percentList = document.querySelectorAll('.other-items.percent');
+const numbertList = document.querySelectorAll('.other-items.number');
 const inputType = document.querySelector('.rollback input[type=range]');
 const spanType = document.querySelector('.rollback .range-value');
-const totalInput = document.getElementsByClassName('total-input');
-let listScreen = document.querySelectorAll('.screen');
+
+const total = document.getElementsByClassName('total-input')[0];
+const totalCount = document.getElementsByClassName('total-input')[1];
+const totalCountRollback = document.getElementsByClassName('total-input')[4];
+const totalCountOther = document.getElementsByClassName('total-input')[2];
+const fullTotalCount = document.getElementsByClassName('total-input')[3];
+
 const appData = {
 
     title: '',
-    screens: '',
+    screens: [],
     adaptive: true,
     fullPrice: 0,
-    service1: 0,
-    service2: 0,
-    allServicePrices: 0,
+    serviceNumber: {},
+    servicePercent: {},
+    ServicePricesPercent: 0,
+    ServicePricesNumber: 0,
     screenPrice: 0,
-    getTitle: function (name) {
-        console.log(title);
-        return name.trim().charAt(0).toUpperCase() + name.trim().slice(1).toLowerCase()
+    getTitle: function () {
+        document.title = title.textContent;
+        //return name.trim().charAt(0).toUpperCase() + name.trim().slice(1).toLowerCase()
     },
     init: function () {
         appData.getTitle();
-        appData.start();
-    },
-
-    asks: function () {
-        //appData.title=prompt('Как называется ваш проект?','Расчёт');
-        do {
-            appData.title = prompt('Как называется ваш проект? Ответ не должен содержать только цифры', 'Расчёт');
-        }
-        while (appData.isNumber(appData.title))
-
-        do {
-            appData.screens = prompt('Какие типы экранов нужно разработать?', 'Выберите: Простые, Сложные, Интерактивные');
-        }
-        while (appData.isNumber(appData.screens))
-
-        appData.adaptive = confirm('Нужен ли адаптив на сайте?');
-        appData.getTitle(appData.title);
+        startBtn.addEventListener('click', appData.start);
+        btnPlus.addEventListener('click', appData.addscreenBlock);
 
     },
+    addScreens: function () {
+        screens = document.querySelectorAll('.screen')
+        screens.forEach(function (screen, index) {
+            const select = screen.querySelector('select');
+            const input = screen.querySelector('input');
+            const selectName = select.options[select.selectedIndex].textContent;
+            //console.log(input.value);
 
-    isNumber: function (num) {
-        return !isNaN(parseFloat(num)) && isFinite(num);
+            appData.screens.push({
+                id: index,
+                name: selectName,
+                price: +select.value * +input.value
+            })
+            //
+        })
+        console.log(appData.screens);
     },
-    getAnswerNum: function () {
-        let Price;
-        do {
-            Price = prompt('Сколько будет стоить данная работа? Ответ выразите в цифрах');
-        }
-        while (!appData.isNumber(Price))
-        return Number(Price);
+    addServices: function () {
+        percentList.forEach(function (item) {
+            const check = item.querySelector('input[type=checkbox]');
+            const label = item.querySelector('label');
+            const input = item.querySelector('input[type=text]');
+
+            if (check.checked) {
+                appData.servicePercent[label.textContent] = +input.value;
+            }
+        })
+
+        numbertList.forEach(function (item) {
+            const check = item.querySelector('input[type=checkbox]');
+            const label = item.querySelector('label');
+            const input = item.querySelector('input[type=text]');
+
+            if (check.checked) {
+                appData.serviceNumber[label.textContent] = +input.value;
+            }
+            /*  console.log(check);
+             console.log(label);*/
+
+        })
+
+
     },
+    addscreenBlock: function () {
+        const cloneScreen = screens[0].cloneNode(true)
+        console.log(cloneScreen);
+        screens[screens.length - 1].after(cloneScreen);
+    },
+    start: function () {
+        appData.addScreens();
+        appData.addServices();
+        appData.addPrices();
+        appData.showResult();
+        console.log(appData);
+        //appData.screenPrice = appData.getAnswerNum();
+        /* appData.allServicePrices = appData.getAllServicePrices();
+         appData.logger(); */
+    },
+
+    /*  getAnswerNum: function () {
+         let Price;
+         do {
+             Price = prompt('Сколько будет стоить данная работа? Ответ выразите в цифрах');
+         }
+         while (!appData.isNumber(Price))
+         return Number(Price);
+     }, */
     showTypeOf: function (element) {
         return typeof (element);
     },
@@ -80,32 +129,24 @@ const appData = {
         return servicePercentPrice;
     },
 
-    getAllServicePrices: function () {
-        let sum = 0;
-        for (let i = 0; i < 2; i++) {
-            if (i === 0) {
-                do {
-                    appData.service1 = prompt('Какой дополнительный тип услуги нужен?');
-                }
-                while (appData.isNumber(appData.service1))
-
-            } else if (i === 1) {
-                do {
-                    appData.service2 = prompt('Какой дополнительный тип услуги нужен?');
-                }
-                while (appData.isNumber(appData.service2))
-            }
-            do {
-                sum = Number(prompt('Сколько будет стоить данная работа? Ответ выразите в цифрах'));
-            }
-            while (!appData.isNumber(sum))
-            sum += +sum;
+    addPrices: function () {
+        for (let screen of appData.screens) {
+            appData.screenPrice += +screen.price
         }
-        return sum;
+        for (let key in appData.serviceNumber) {
+            appData.ServicePricesNumber += appData.serviceNumber[key]
+        }
+        for (let key in appData.servicePercent) {
+            appData.ServicePricesPercent += appData.screenPrice * (appData.servicePercent[key] / 100)
+        }
+        appData.fullPrice = +appData.screenPrice + appData.ServicePricesPercent + appData.ServicePricesNumber
+
     },
-    getFullPrice: function (priceScreen, getAllPrices) {
-        const fullPrice = Number(priceScreen) + Number(getAllPrices);
-        return fullPrice;
+    showResult: function () {
+        total.value = appData.screenPrice;
+        totalCountOther.value = appData.ServicePricesPercent + appData.ServicePricesNumber;
+        fullTotalCount.value = appData.fullPrice;
+        alert()
     },
     logger: function () {
         console.log(appData.screenPrice);
@@ -118,13 +159,6 @@ const appData = {
         for (let key in appData) {
             console.log('ключ: ' + key + '' + ' значение: ' + appData[key]);
         }
-    },
-    start: function () {
-        /*  appData.asks();
-         appData.screenPrice = appData.getAnswerNum();
-         appData.allServicePrices = appData.getAllServicePrices();
-         appData.fullPrice = appData.screenPrice + appData.allServicePrices;
-         appData.logger(); */
     }
 
 }
