@@ -1,13 +1,11 @@
 'use strict'
 
-//const listH = document.getElementsByTagName('h1');
+
 const title = document.getElementsByTagName('h1')[0];
-//const title = listH.item(0).innerHTML;
+
 const startBtn = document.getElementsByClassName('handler_btn')[0];
 const redtBtn = document.getElementsByClassName('handler_btn')[1];
-/* const listBtn = document.getElementsByClassName('handler_btn');
-const listBtnEl0 = listBtn[0];
-const listBtnEl1 = listBtn[1]; */
+
 let screens = document.querySelectorAll('.screen');
 const btnPlus = document.querySelector('.screen-btn');
 const percentList = document.querySelectorAll('.other-items.percent');
@@ -61,9 +59,6 @@ const appData = {
                 count: +input.value
 
             })
-            //appData.count = input.value;
-            //appData.count += +input.value;
-            //console.log(appData.count);
         })
     },
     //--------
@@ -121,9 +116,6 @@ const appData = {
         appData.addPrices();
         appData.showResult();
         console.log(appData);
-        //appData.screenPrice = appData.getAnswerNum();
-        /* appData.allServicePrices = appData.getAllServicePrices();
-         appData.logger(); */
     },
     showTypeOf: function (element) {
         return typeof (element);
