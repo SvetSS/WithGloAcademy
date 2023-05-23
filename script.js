@@ -32,6 +32,7 @@ const appData = {
     ServicePricesPercent: 0,
     ServicePricesNumber: 0,
     screenPrice: 0,
+    isError: false,
     getTitle: function () {
         document.title = title.textContent;
         //return name.trim().charAt(0).toUpperCase() + name.trim().slice(1).toLowerCase()
@@ -39,26 +40,55 @@ const appData = {
     init: function () {
         appData.getTitle();
         startBtn.addEventListener('click', appData.start);
+
+
         btnPlus.addEventListener('click', appData.addscreenBlock);
 
     },
     addScreens: function () {
         screens = document.querySelectorAll('.screen')
         screens.forEach(function (screen, index) {
-            const select = screen.querySelector('select');
+            const select = screen.querySelector('select');//
             const input = screen.querySelector('input');
             const selectName = select.options[select.selectedIndex].textContent;
-            //console.log(input.value);
+            //
+            /* if (select.value == '' || input.value.trim() == '') {
+                appData.isError = true;
 
+            } */
+            /*  screens.addEventListener('change', () => {
+                 appData.checkInputs(cscreen);
+ 
+ 
+                 isError = false; // 
+             }); */
             appData.screens.push({
                 id: index,
                 name: selectName,
                 price: +select.value * +input.value
+                /*  else {
+                     
+                     }) 
+                 }*/            //
             })
-            //
+            console.log(appData.screens);
         })
-        console.log(appData.screens);
     },
+    //--------
+    checkInputs: function () {
+
+        for (let i = 0; i < arr.length; i++) {
+            const select = arr[i];
+            const input = arr[i];
+
+            if (select.value === '' || input.value.trim() === '') {
+                appData.isError = true;
+                break;
+            }
+        }
+
+
+    },//-----------
     addServices: function () {
         percentList.forEach(function (item) {
             const check = item.querySelector('input[type=checkbox]');
@@ -91,7 +121,18 @@ const appData = {
         screens[screens.length - 1].after(cloneScreen);
     },
     start: function () {
-        appData.addScreens();
+        if (appData.isError == false) {
+
+            appData.addScreens();
+        }
+        else {
+            alert('j');
+            location.reload()
+            appData.addScreens();
+        }
+
+        console.log(appData.screens);
+        //console.log(appData.addScreens());
         appData.addServices();
         appData.addPrices();
         appData.showResult();
@@ -146,7 +187,7 @@ const appData = {
         total.value = appData.screenPrice;
         totalCountOther.value = appData.ServicePricesPercent + appData.ServicePricesNumber;
         fullTotalCount.value = appData.fullPrice;
-        alert()
+
     },
     logger: function () {
         console.log(appData.screenPrice);
