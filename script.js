@@ -2,11 +2,14 @@
 
 const title = document.getElementsByTagName('h1')[0];
 
-const startBtn = document.getElementsByClassName('handler_btn')[0];
-const redtBtn = document.getElementsByClassName('handler_btn')[1];
+const startBtn = document.getElementsByClassName('handler_btn')[0];//рассчитать
+const redtBtn = document.getElementsByClassName('handler_btn')[1];//сброс
 
 let screens = document.querySelectorAll('.screen');
-console.dir(screens[0]);
+let elemsInput = document.querySelectorAll('.main-controls input[type=text]');//block
+let elemsSelect = document.querySelectorAll('.main-controls select');//block
+let elemsCheck = document.querySelectorAll('.main-controls [type=checkbox]');//block
+console.log(elemsCheck);
 const btnPlus = document.querySelector('.screen-btn');
 const percentList = document.querySelectorAll('.other-items.percent');
 const numbertList = document.querySelectorAll('.other-items.number');
@@ -35,12 +38,12 @@ const appData = {
     isError: false,
     getTitle: function () {
         document.title = title.textContent;
-        //return name.trim().charAt(0).toUpperCase() + name.trim().slice(1).toLowerCase()
     },
     init: function () {
         this.getTitle();
-        //appData.getTitle();
-        startBtn.addEventListener('click', this.checkInputs);
+        // startBtn.addEventListener('click', this.checkInputs);
+        startBtn.addEventListener('click', appData.checkInputs);
+        startBtn.addEventListener('click', blockInput);
 
 
         btnPlus.addEventListener('click', this.addscreenBlock);
@@ -166,3 +169,51 @@ inputTypeRange.addEventListener("input", () => {
     console.log(spanType.textContent)
 });//========
 appData.init();
+redtBtn.addEventListener('click', reset);
+function reset() {
+    elemsInput.forEach(function (input) {
+        input.disabled = false;
+    });
+    elemsSelect.forEach(function (input) {
+        input.disabled = false;
+    });
+    elemsCheck.forEach(function (input) {
+        input.disabled = false;
+    });
+
+
+    screens = document.querySelectorAll('.screen');
+
+    for (let i = 1; i < screens.length; i++) {
+        screens[i].remove();
+    };
+    btnPlus.disabled = false;
+    screens = document.querySelectorAll('.screen');
+    //btnPlus.addEventListener('click', appData.addscreenBlock);
+    startBtn.style.display = 'inline';
+    redtBtn.style.display = 'none';
+
+};
+function blockInput() {
+    screens = document.querySelectorAll('.screen');
+    elemsInput = document.querySelectorAll('.main-controls input[type=text]');//block
+    elemsSelect = document.querySelectorAll('.main-controls select');//block
+    elemsCheck = document.querySelectorAll('.main-controls [type=checkbox]');
+
+    screens.forEach(function (input) {
+        input.disabled = true;
+    });
+    elemsInput.forEach(function (input) {
+        input.disabled = true;
+    });
+    elemsSelect.forEach(function (input) {
+        input.disabled = true;
+    });
+    elemsCheck.forEach(function (input) {
+        input.disabled = true;
+    });
+    btnPlus.disabled = true;
+
+    startBtn.style.display = 'none';
+    redtBtn.style.display = 'inline';
+}
