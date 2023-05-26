@@ -1,12 +1,12 @@
 'use strict'
 
-
 const title = document.getElementsByTagName('h1')[0];
 
 const startBtn = document.getElementsByClassName('handler_btn')[0];
 const redtBtn = document.getElementsByClassName('handler_btn')[1];
 
 let screens = document.querySelectorAll('.screen');
+console.dir(screens[0]);
 const btnPlus = document.querySelector('.screen-btn');
 const percentList = document.querySelectorAll('.other-items.percent');
 const numbertList = document.querySelectorAll('.other-items.number');
@@ -38,11 +38,12 @@ const appData = {
         //return name.trim().charAt(0).toUpperCase() + name.trim().slice(1).toLowerCase()
     },
     init: function () {
-        appData.getTitle();
-        startBtn.addEventListener('click', appData.checkInputs);
+        this.getTitle();
+        //appData.getTitle();
+        startBtn.addEventListener('click', this.checkInputs);
 
 
-        btnPlus.addEventListener('click', appData.addscreenBlock);
+        btnPlus.addEventListener('click', this.addscreenBlock);
 
     },
     addScreens: function () {
@@ -154,9 +155,9 @@ const appData = {
             console.log('ключ: ' + key + '' + ' значение: ' + appData[key]);
         }
     }
-
 }
-inputTypeRange.addEventListener("input", function () {
+inputTypeRange.addEventListener("input", () => {
+    //inputTypeRange.addEventListener("input", function () {
     const value = inputTypeRange.value;
 
     spanType.textContent = value + '%';
