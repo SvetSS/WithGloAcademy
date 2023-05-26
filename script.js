@@ -13,7 +13,7 @@ console.log(elemsCheck);
 const btnPlus = document.querySelector('.screen-btn');
 const percentList = document.querySelectorAll('.other-items.percent');
 const numbertList = document.querySelectorAll('.other-items.number');
-const inputTypeRange = document.querySelector('.rollback input[type=range]');
+let inputTypeRange = document.querySelector('.rollback input[type=range]');
 const spanType = document.querySelector('.rollback .range-value');
 
 const total = document.getElementsByClassName('total-input')[0];
@@ -171,16 +171,27 @@ inputTypeRange.addEventListener("input", () => {
 appData.init();
 redtBtn.addEventListener('click', reset);
 function reset() {
+    screens = document.querySelectorAll('.screen');
+    inputTypeRange = document.querySelector('.rollback input[type=range]');
+    elemsInput = document.querySelectorAll('.main-controls input[type=text]');//block
+    elemsSelect = document.querySelectorAll('.main-controls select');//block
+    elemsCheck = document.querySelectorAll('.main-controls [type=checkbox]');
+
+    inputTypeRange.value = 0;
     elemsInput.forEach(function (input) {
         input.disabled = false;
+        input.value = '';
     });
     elemsSelect.forEach(function (input) {
         input.disabled = false;
+        input.value = "";
     });
     elemsCheck.forEach(function (input) {
         input.disabled = false;
+        if (input.checked) {
+            input.checked = !input.checked
+        }
     });
-
 
     screens = document.querySelectorAll('.screen');
 
