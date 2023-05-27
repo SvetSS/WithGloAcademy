@@ -52,7 +52,7 @@ const appData = {
     addScreens: function () {
         // const self = this;
         screens = document.querySelectorAll('.screen')
-        screens.forEach(function (screen, index) {//
+        screens.forEach((screen, index) => {//
             const select = screen.querySelector('select');//
             const input = screen.querySelector('input');
             const selectName = select.options[select.selectedIndex].textContent;
@@ -88,7 +88,7 @@ const appData = {
     },//-----------
 
     addServices: function () {
-        percentList.forEach(function (item) {
+        percentList.forEach((item) => {//func
             const check = item.querySelector('input[type=checkbox]');
             const label = item.querySelector('label');
             const input = item.querySelector('input[type=text]');
@@ -98,7 +98,7 @@ const appData = {
             }
         })
 
-        numbertList.forEach(function (item) {
+        numbertList.forEach((item) => {
             const check = item.querySelector('input[type=checkbox]');
             const label = item.querySelector('label');
             const input = item.querySelector('input[type=text]');
@@ -180,15 +180,15 @@ function reset() {
     elemsCheck = document.querySelectorAll('.main-controls [type=checkbox]');
 
     inputTypeRange.value = 0;
-    elemsInput.forEach(function (input) {
+    elemsInput.forEach((input) => {
         input.disabled = false;
         input.value = '';
     });
-    elemsSelect.forEach(function (input) {
+    elemsSelect.forEach((input) => {
         input.disabled = false;
         input.value = "";
     });
-    elemsCheck.forEach(function (input) {
+    elemsCheck.forEach((input) => {
         input.disabled = false;
         if (input.checked) {
             input.checked = !input.checked
@@ -213,16 +213,16 @@ function blockInput() {
     elemsSelect = document.querySelectorAll('.main-controls select');//block
     elemsCheck = document.querySelectorAll('.main-controls [type=checkbox]');
 
-    screens.forEach(function (input) {
+    screens.forEach((input) => {
         input.disabled = true;
     });
-    elemsInput.forEach(function (input) {
+    elemsInput.forEach((input) => {
         input.disabled = true;
     });
-    elemsSelect.forEach(function (input) {
+    elemsSelect.forEach((input) => {
         input.disabled = true;
     });
-    elemsCheck.forEach(function (input) {
+    elemsCheck.forEach((input) => {
         input.disabled = true;
     });
     btnPlus.disabled = true;
