@@ -42,7 +42,7 @@ const appData = {
     init: function () {
         this.getTitle();
         // startBtn.addEventListener('click', this.checkInputs);
-        startBtn.addEventListener('click', appData.checkInputs);
+        startBtn.addEventListener('click', this.checkInputs.bind(this)/* appData.checkInputs */);
         startBtn.addEventListener('click', blockInput);
 
 
@@ -50,13 +50,15 @@ const appData = {
 
     },
     addScreens: function () {
+        // const self = this;
         screens = document.querySelectorAll('.screen')
-        screens.forEach(function (screen, index) {
+        screens.forEach(function (screen, index) {//
             const select = screen.querySelector('select');//
             const input = screen.querySelector('input');
             const selectName = select.options[select.selectedIndex].textContent;
 
-            appData.screens.push({
+            //console.log(self.screens)
+            this.screens.push({/**/
                 id: index,
                 name: selectName,
                 price: +select.value * +input.value,
@@ -68,7 +70,7 @@ const appData = {
     //--------
     checkInputs: function () {
         screens = document.querySelectorAll('.screen');
-        appData.isError = false;
+        this.isError = false;
 
         screens.forEach((screen) => {
             const select = screen.querySelector('select');//
@@ -80,7 +82,7 @@ const appData = {
             }
         })
 
-        if (!appData.isError) {
+        if (!this.isError) {
             appData.start();
         }
     },//-----------
@@ -92,7 +94,7 @@ const appData = {
             const input = item.querySelector('input[type=text]');
 
             if (check.checked) {
-                appData.servicePercent[label.textContent] = +input.value;
+                this.servicePercent[label.textContent] = +input.value;
             }
         })
 
