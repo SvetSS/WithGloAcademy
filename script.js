@@ -47,6 +47,7 @@ const appData = {
 
 
         btnPlus.addEventListener('click', this.addscreenBlock);
+        redtBtn.addEventListener('click', appData.reset);
 
     },
     addScreens: function () {
@@ -127,11 +128,7 @@ const appData = {
     getServicePercentPrices: function () {
 
     },
-    /* serviceNumber: {},
-    servicePercent: {},
-    ServicePricesPercent: 0,
-    ServicePricesNumber: 0,
-    screenPrice: 0, */
+
     addPrices: function () {
         for (let screen of appData.screens) {
             appData.screenPrice += +screen.price
@@ -161,6 +158,52 @@ const appData = {
         for (let key in appData) {
             console.log('ключ: ' + key + '' + ' значение: ' + appData[key]);
         }
+    },
+
+    //++reset
+    reset: function () {
+        screens = document.querySelectorAll('.screen');
+        inputTypeRange = document.querySelector('.rollback input[type=range]');
+        elemsInput = document.querySelectorAll('.main-controls input[type=text]');//block
+        elemsSelect = document.querySelectorAll('.main-controls select');//block
+        elemsCheck = document.querySelectorAll('.main-controls [type=checkbox]');
+
+        appData.rollback = 0;
+        appData.fullPrice = 0;
+        appData.servicePercentPrice = 0;
+        appData.ServicePricesPercent = 0;
+        appData.ServicePricesNumber = 0;
+        appData.screenPrice = 0;
+        appData.count = 0;
+        inputTypeRange.value = 0;
+
+        elemsInput.forEach(function (input) {
+            input.disabled = false;
+            input.value = '';
+        });
+        elemsSelect.forEach(function (input) {
+            input.disabled = false;
+            input.value = "";
+        });
+        elemsCheck.forEach(function (input) {
+            input.disabled = false;
+            if (input.checked) {
+                input.checked = !input.checked
+            }
+        });
+
+        screens = document.querySelectorAll('.screen');
+
+        for (let i = 1; i < screens.length; i++) {
+            screens[i].remove();
+        };
+        btnPlus.disabled = false;
+        screens = document.querySelectorAll('.screen');
+        //btnPlus.addEventListener('click', appData.addscreenBlock);
+        startBtn.style.display = 'inline';
+        redtBtn.style.display = 'none';
+        appData.showResult();
+
     }
 }
 inputTypeRange.addEventListener("input", () => {
@@ -173,42 +216,8 @@ inputTypeRange.addEventListener("input", () => {
     console.log(spanType.textContent)
 });//========
 appData.init();
-redtBtn.addEventListener('click', reset);
-function reset() {
-    screens = document.querySelectorAll('.screen');
-    inputTypeRange = document.querySelector('.rollback input[type=range]');
-    elemsInput = document.querySelectorAll('.main-controls input[type=text]');//block
-    elemsSelect = document.querySelectorAll('.main-controls select');//block
-    elemsCheck = document.querySelectorAll('.main-controls [type=checkbox]');
 
-    inputTypeRange.value = 0;
-    elemsInput.forEach(function (input) {
-        input.disabled = false;
-        input.value = '';
-    });
-    elemsSelect.forEach(function (input) {
-        input.disabled = false;
-        input.value = "";
-    });
-    elemsCheck.forEach(function (input) {
-        input.disabled = false;
-        if (input.checked) {
-            input.checked = !input.checked
-        }
-    });
 
-    screens = document.querySelectorAll('.screen');
-
-    for (let i = 1; i < screens.length; i++) {
-        screens[i].remove();
-    };
-    btnPlus.disabled = false;
-    screens = document.querySelectorAll('.screen');
-    //btnPlus.addEventListener('click', appData.addscreenBlock);
-    startBtn.style.display = 'inline';
-    redtBtn.style.display = 'none';
-
-};
 function blockInput() {
     screens = document.querySelectorAll('.screen');
     elemsInput = document.querySelectorAll('.main-controls input[type=text]');//block
